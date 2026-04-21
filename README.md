@@ -1,117 +1,383 @@
 # 🪙 CampusCoin Wallet
 
-A blockchain-based campus payment system built with **React** and **Ethereum (ethers.js)**. CampusCoin enables students to connect their MetaMask wallets and use **CampusCoin tokens** for everyday campus transactions — paying canteen bills, purchasing event tickets, and transferring tokens between student wallets.
+CampusCoin is a blockchain-based campus payment system built using React, ASP.NET Core Web API, SQL Server, and Ethereum Sepolia blockchain.
+
+The project allows students to connect their MetaMask wallet, use CampusCoin ERC-20 tokens, make canteen payments, buy event tickets, transfer tokens to other students, and securely login using a backend authentication system.
 
 ---
 
-## 📋 Project Summary
+# 📋 Project Overview
 
-CampusCoin is a decentralized wallet application designed for university campuses. It leverages the Ethereum blockchain to facilitate fast, transparent, and secure token-based payments among students.
+CampusCoin is designed as a decentralized campus payment ecosystem.
 
-### Key Features
+Students can:
 
-- 🔗 **MetaMask Wallet Integration** — Connect your Ethereum wallet with a single click
-- 💰 **Balance Viewer** — Check your CampusCoin token balance in real time
-- 🍽️ **Canteen Payment** — Pay for meals at campus canteens using CampusCoin tokens
-- 🎟️ **Event Tickets** — Purchase tickets for campus events directly from your wallet
-- 💸 **Token Transfer** — Send CampusCoin tokens to other student wallet addresses
-- 📜 **Transaction History** — View a complete log of your past transactions
-- 🧾 **PDF Export** — Generate and download transaction receipts as PDFs
+* Connect MetaMask wallet
+* View CampusCoin token balance
+* Transfer tokens to other students
+* Pay for canteen items
+* Buy event tickets
+* View transaction history
+* Login securely using JWT authentication
+* Register new accounts linked with wallet addresses
 
-### Tech Stack
-
-| Layer       | Technology                          |
-|-------------|-------------------------------------|
-| Frontend    | React 19, JavaScript (JSX)          |
-| Blockchain  | Ethereum, ethers.js v6              |
-| Wallet      | MetaMask (`@metamask/detect-provider`) |
-| PDF Export  | jsPDF                               |
-| Styling     | CSS3                                |
-| Toolchain   | Create React App (react-scripts)    |
+The backend stores users and transaction history in SQL Server.
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Features
 
-### Prerequisites
+## Blockchain Features
 
-Before running this project, make sure you have the following installed:
+* MetaMask wallet integration
+* ERC-20 CampusCoin token support
+* Wallet balance viewer
+* Token transfer functionality
+* Canteen payment system
+* Event ticket purchase system
+* Transaction history tracking
+* Sepolia testnet integration
 
-- [Node.js](https://nodejs.org/) (v16 or higher recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-- [MetaMask](https://metamask.io/) browser extension installed and set up
+## Backend Features
 
-### Installation & Running
-
-**1. Clone the repository** (if you haven't already):
-```bash
-git clone <your-repo-url>
-cd CampusCoin_FinalYear
-```
-
-**2. Install dependencies:**
-```bash
-npm install
-```
-
-**3. Start the development server:**
-```bash
-npm start
-```
-
-The app will automatically open in your browser at:
-```
-http://localhost:3000
-```
+* User registration
+* User login
+* Password hashing using BCrypt
+* JWT token authentication
+* Protected APIs
+* SQL Server database integration
+* Transaction storage in database
+* User profile API
 
 ---
 
-## 🧪 Other Available Scripts
+# 🛠️ Tech Stack
 
-| Command         | Description                              |
-|-----------------|------------------------------------------|
-| `npm start`     | Runs the app in development mode         |
-| `npm run build` | Builds the app for production            |
-| `npm test`      | Launches the test runner                 |
-| `npm run eject` | Ejects from Create React App (one-way)   |
+| Layer              | Technology            |
+| ------------------ | --------------------- |
+| Frontend           | React.js              |
+| Backend            | ASP.NET Core Web API  |
+| Database           | SQL Server            |
+| ORM                | Entity Framework Core |
+| Authentication     | JWT + BCrypt          |
+| Blockchain         | Ethereum Sepolia      |
+| Wallet             | MetaMask              |
+| Blockchain Library | ethers.js             |
+| API Testing        | Swagger / Postman     |
+| Styling            | CSS                   |
 
 ---
 
-## 🦊 MetaMask Setup
+# 📁 Project Structure
 
-1. Install the [MetaMask](https://metamask.io/) browser extension.
-2. Create or import a wallet.
-3. Connect to the appropriate Ethereum network - make sure that the test network slider is on ( We have deployed or coins using remix ide and tested using sepolia test network)
-4. Open the app at `http://localhost:3000` and click **"Connect Wallet"**.
- 
----
-
-## 📁 Project Structure
-
-```
+```text
 CampusCoin_FinalYear/
-├── public/
-│   └── index.html          # HTML entry point
-├── src/
-│   ├── components/
-│   │   ├── BalanceCard.js        # Displays token balance
-│   │   ├── CanteenPayment.js     # Canteen payment UI
-│   │   ├── ConnectWallet.js      # MetaMask wallet connection
-│   │   ├── EventTicket.js        # Event ticket purchase UI
-│   │   ├── TransactionHistory.js # Transaction log viewer
-│   │   └── TransferForm.js       # Token transfer form
-│   ├── pages/
-│   │   └── Dashboard.jsx         # Main dashboard page
-│   ├── context/                  # React context providers
-│   ├── utils/                    # Utility/helper functions
-│   ├── App.js                    # Root application component
-│   └── index.js                  # React DOM entry point
-├── package.json
+│
+├── client/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── BalanceCard.js
+│   │   │   ├── CanteenPayment.js
+│   │   │   ├── ConnectWallet.js
+│   │   │   ├── EventTicket.js
+│   │   │   ├── TransactionHistory.js
+│   │   │   └── TransferForm.js
+│   │   ├── context/
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   └── authService.js
+│   │   ├── App.js
+│   │   └── index.js
+│   ├── package.json
+│   └── package-lock.json
+│
+├── server/
+│   └── CampusCoinBackend/
+│       ├── Controllers/
+│       ├── Data/
+│       ├── DTOs/
+│       ├── Models/
+│       ├── Migrations/
+│       ├── .env
+│       ├── appsettings.json
+│       ├── Program.cs
+│       └── CampusCoinBackend.csproj
+│
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 📄 License
+# ⚙️ Prerequisites
 
-This project was developed as a Final Year project. All rights reserved.
+Before running the project, install the following:
+
+* Node.js
+* npm
+* Visual Studio 2022 or Visual Studio Code
+* .NET 8 SDK
+* SQL Server
+* SQL Server Management Studio (SSMS)
+* MetaMask browser extension
+
+---
+
+# 🔑 MetaMask Setup
+
+1. Install MetaMask browser extension
+2. Create or import wallet
+3. Enable test networks in MetaMask
+4. Switch to Ethereum Sepolia Testnet
+5. Import CampusCoin token contract if needed
+6. Ensure you have Sepolia ETH for gas fees
+
+---
+
+# 🖥️ Frontend Setup
+
+Open terminal inside:
+
+```text
+client/
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Install required packages:
+
+```bash
+npm install axios
+npm install react-router-dom
+npm install ethers
+```
+
+Run frontend:
+
+```bash
+npm start
+```
+
+Frontend will run at:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# ⚙️ Backend Setup
+
+Open terminal inside:
+
+```text
+server/CampusCoinBackend
+```
+
+Install backend packages:
+
+```bash
+dotnet restore
+```
+
+Required backend packages:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package BCrypt.Net-Next
+dotnet add package Swashbuckle.AspNetCore
+dotnet add package DotNetEnv
+```
+
+---
+
+# 🗄️ Database Setup
+
+Create SQL Server database:
+
+```text
+CampusCoinDB
+```
+
+Create `.env` file inside:
+
+```text
+server/CampusCoinBackend/.env
+```
+
+Add:
+
+```text
+ConnectionStrings__DefaultConnection=Server=localhost\SQLEXPRESS;Database=CampusCoinDB;Trusted_Connection=True;TrustServerCertificate=True;
+Jwt__Key=ThisIsMyCampusCoinSecretKey12345
+Jwt__Issuer=CampusCoinAPI
+Jwt__Audience=CampusCoinUsers
+```
+
+Run migrations:
+
+```bash
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+---
+
+# ▶️ Run Backend
+
+Inside backend folder run:
+
+```bash
+dotnet run
+```
+
+Backend will run at:
+
+```text
+http://localhost:5134
+```
+
+Swagger API documentation:
+
+```text
+http://localhost:5134/swagger
+```
+
+---
+
+# 🔐 Default Test Login
+
+Example registered user:
+
+```text
+Email: acer@gmail.com
+Password: 123456
+```
+
+---
+
+# 🔄 Running Both Frontend and Backend
+
+Open two separate terminals.
+
+Terminal 1:
+
+```bash
+cd server/CampusCoinBackend
+dotnet run
+```
+
+Terminal 2:
+
+```bash
+cd client
+npm start
+```
+
+Then open:
+
+```text
+Frontend: http://localhost:3000
+Backend: http://localhost:5134
+Swagger: http://localhost:5134/swagger
+```
+
+---
+
+# 📡 Available Backend APIs
+
+## Authentication APIs
+
+```text
+POST /api/Auth/register
+POST /api/Auth/login
+GET /api/Auth/profile
+```
+
+## Transaction APIs
+
+```text
+POST /api/Transaction/add
+GET /api/Transaction/all
+```
+
+---
+
+# 🧪 API Testing
+
+You can test APIs using:
+
+* Swagger
+* Postman
+
+Protected routes require JWT token in header:
+
+```text
+Authorization: Bearer your_token_here
+```
+
+---
+
+# 🔒 Important Security Notes
+
+Do not push the following files to GitHub:
+
+```text
+.env
+appsettings.Development.json
+node_modules/
+bin/
+obj/
+.vs/
+```
+
+Keep real secrets only inside `.env` file.
+
+---
+
+# 📄 Git Ignore Example
+
+```text
+node_modules/
+client/node_modules/
+bin/
+obj/
+.env
+.vs/
+.vscode/
+appsettings.Development.json
+```
+
+---
+
+# 📌 Future Improvements
+
+* Admin dashboard
+* Role-based login
+* Forgot password
+* Email verification
+* Hostel fee payment
+* Library fine payment
+* QR code transaction history
+* PDF export
+* Excel export
+* Analytics dashboard
+* Profile photo upload
+
+---
+
+# 📄 License
+
+This project was developed as a Final Year project for educational purposes.
