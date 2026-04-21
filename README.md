@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# 🪙 CampusCoin Wallet
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A blockchain-based campus payment system built with **React** and **Ethereum (ethers.js)**. CampusCoin enables students to connect their MetaMask wallets and use **CampusCoin tokens** for everyday campus transactions — paying canteen bills, purchasing event tickets, and transferring tokens between student wallets.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📋 Project Summary
 
-### `npm start`
+CampusCoin is a decentralized wallet application designed for university campuses. It leverages the Ethereum blockchain to facilitate fast, transparent, and secure token-based payments among students.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Key Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🔗 **MetaMask Wallet Integration** — Connect your Ethereum wallet with a single click
+- 💰 **Balance Viewer** — Check your CampusCoin token balance in real time
+- 🍽️ **Canteen Payment** — Pay for meals at campus canteens using CampusCoin tokens
+- 🎟️ **Event Tickets** — Purchase tickets for campus events directly from your wallet
+- 💸 **Token Transfer** — Send CampusCoin tokens to other student wallet addresses
+- 📜 **Transaction History** — View a complete log of your past transactions
+- 🧾 **PDF Export** — Generate and download transaction receipts as PDFs
 
-### `npm test`
+### Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Layer       | Technology                          |
+|-------------|-------------------------------------|
+| Frontend    | React 19, JavaScript (JSX)          |
+| Blockchain  | Ethereum, ethers.js v6              |
+| Wallet      | MetaMask (`@metamask/detect-provider`) |
+| PDF Export  | jsPDF                               |
+| Styling     | CSS3                                |
+| Toolchain   | Create React App (react-scripts)    |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Before running this project, make sure you have the following installed:
 
-### `npm run eject`
+- [Node.js](https://nodejs.org/) (v16 or higher recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [MetaMask](https://metamask.io/) browser extension installed and set up
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Installation & Running
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**1. Clone the repository** (if you haven't already):
+```bash
+git clone <your-repo-url>
+cd CampusCoin_FinalYear
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**2. Install dependencies:**
+```bash
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**3. Start the development server:**
+```bash
+npm start
+```
 
-## Learn More
+The app will automatically open in your browser at:
+```
+http://localhost:3000
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🧪 Other Available Scripts
 
-### Code Splitting
+| Command         | Description                              |
+|-----------------|------------------------------------------|
+| `npm start`     | Runs the app in development mode         |
+| `npm run build` | Builds the app for production            |
+| `npm test`      | Launches the test runner                 |
+| `npm run eject` | Ejects from Create React App (one-way)   |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🦊 MetaMask Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Install the [MetaMask](https://metamask.io/) browser extension.
+2. Create or import a wallet.
+3. Connect to the appropriate Ethereum network - make sure that the test network slider is on ( We have deployed or coins using remix ide and tested using sepolia test network)
+4. Open the app at `http://localhost:3000` and click **"Connect Wallet"**.
+ 
+---
 
-### Making a Progressive Web App
+## 📁 Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+CampusCoin_FinalYear/
+├── public/
+│   └── index.html          # HTML entry point
+├── src/
+│   ├── components/
+│   │   ├── BalanceCard.js        # Displays token balance
+│   │   ├── CanteenPayment.js     # Canteen payment UI
+│   │   ├── ConnectWallet.js      # MetaMask wallet connection
+│   │   ├── EventTicket.js        # Event ticket purchase UI
+│   │   ├── TransactionHistory.js # Transaction log viewer
+│   │   └── TransferForm.js       # Token transfer form
+│   ├── pages/
+│   │   └── Dashboard.jsx         # Main dashboard page
+│   ├── context/                  # React context providers
+│   ├── utils/                    # Utility/helper functions
+│   ├── App.js                    # Root application component
+│   └── index.js                  # React DOM entry point
+├── package.json
+└── README.md
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📄 License
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project was developed as a Final Year project. All rights reserved.
