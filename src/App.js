@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import ConnectWallet from "./components/ConnectWallet";
+import BalanceCard from "./components/BalanceCard";
+import TransferForm from "./components/TransferForm";
+import TransactionHistory from "./components/TransactionHistory";
+import { ethers } from "ethers";
+import CanteenPayment from "./components/CanteenPayment";
+import EventTicket from "./components/EventTicket";
+
+
+window.ethers = ethers;
 
 function App() {
+  const [account, setAccount] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>CampusCoin Wallet</h1>
+      <ConnectWallet setAccount={setAccount} />
+      {account && (
+        <div className="dashboard-container">
+          <p className="dashboard-intro">
+            Use Cases: Pay canteen bills or event tickets using CampusCoin tokens between student wallets.
+          </p>
+
+          <div className="top-section">
+            <BalanceCard account={account} />
+            <TransferForm account={account} />
+          </div>
+
+          <div className="features-grid">
+            <CanteenPayment account={account}/>
+            <EventTicket account={account}/>
+          </div>
+          
+          <div className="history-section">
+            <TransactionHistory account={account} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
