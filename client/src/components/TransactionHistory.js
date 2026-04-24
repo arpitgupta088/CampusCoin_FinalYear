@@ -114,70 +114,55 @@ function TransactionHistory({ account }) {
     <div className="card" style={{ marginTop: 20 }}>
       <h3 style={{ marginBottom: 16 }}>Transaction History</h3>
 
-      {loading && <p style={{ color: "var(--text-muted)" }}>Loading transactions...</p>}
+      {loading && (
+        <p style={{ color: "rgba(255,255,255,0.45)" }}>Loading transactions...</p>
+      )}
 
       {!loading && txs.length === 0 && (
-        <p style={{ color: "var(--text-muted)" }}>No transactions found for this account.</p>
+        <p style={{ color: "rgba(255,255,255,0.45)" }}>No transactions found for this account.</p>
       )}
 
       {!loading &&
         txs.map((tx) => (
           <div
             key={tx.hash}
-            style={{
-              background: "var(--background)",
-              borderRadius: "var(--radius-md)",
-              padding: 16,
-              marginBottom: 16,
-              border: "1px solid var(--border)",
-              transition: "var(--transition)",
-            }}
+            className="tx-row"
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: 8,
-              }}
-            >
+            <div className="tx-row-header">
               <span
+                className="tx-direction"
                 style={{
-                  fontWeight: 600,
-                  color: tx.direction === "Sent" ? "#ef4444" : "var(--secondary)",
+                  color: tx.direction === "Sent" ? "#f87171" : "#34d399",
                 }}
               >
-                {tx.direction}
+                {tx.direction === "Sent" ? "↑ Sent" : "↓ Received"}
               </span>
-              <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
-                {tx.time}
-              </span>
+              <span className="tx-time">{tx.time}</span>
             </div>
 
-            <div style={{ fontSize: "1rem", marginBottom: 8, fontWeight: 500 }}>
-              Amount: {tx.amount} CCN
+            <div className="tx-amount">
+              {tx.direction === "Sent" ? "−" : "+"}{tx.amount} CCN
             </div>
 
-            <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: 12 }}>
+            <div className="tx-addr">
               <strong>{tx.direction === "Sent" ? "To:" : "From:"}</strong>{" "}
               {shortAddr(tx.direction === "Sent" ? tx.to : tx.from)}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="tx-actions">
               <a
                 href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
                 target="_blank"
                 rel="noreferrer"
                 className="tx-link"
-                style={{ fontSize: "0.85rem" }}
               >
                 View on Etherscan ↗
               </a>
               <button
-                className="btn btn-primary"
+                className="tx-pdf-btn"
                 onClick={() => downloadReceipt(tx)}
-                style={{ padding: "6px 12px", fontSize: "0.8rem" }}
               >
-                Download PDF
+                ⬇ Download PDF
               </button>
             </div>
           </div>

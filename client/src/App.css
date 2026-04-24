@@ -329,3 +329,91 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+/* =====================================================
+   TRANSACTION HISTORY — Dark theme rows
+   ===================================================== */
+
+.tx-row {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  transition: all 0.2s ease;
+}
+
+.tx-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tx-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tx-direction {
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
+}
+
+.tx-time {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tx-amount {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.tx-addr {
+  font-size: 0.83rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 14px;
+  font-family: 'Courier New', monospace;
+}
+
+.tx-addr strong {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-family: 'Inter', sans-serif;
+}
+
+.tx-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tx-pdf-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  background: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tx-pdf-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.45);
+  transform: translateY(-1px);
+}
