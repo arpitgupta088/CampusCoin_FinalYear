@@ -150,6 +150,7 @@
 }
 
 @media (max-width: 768px) {
+
   .dash-top-row,
   .dash-features-row {
     grid-template-columns: 1fr;
