@@ -1,65 +1,312 @@
-.App {
-  text-align: center;
-  padding: 40px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+/* =====================================================
+   DASHBOARD — Dark unified theme
+   ===================================================== */
+
+/* Full-page dark canvas (same gradient as auth) */
+.dash-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  position: relative;
+  overflow-x: hidden;
 }
 
-h1 {
-  font-size: 2.5rem;
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+/* Navbar */
+.dash-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 64px;
+  background: rgba(15, 12, 41, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dash-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.dash-navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(79, 70, 229, 0.2);
+  border: 1px solid rgba(79, 70, 229, 0.4);
+  border-radius: 12px;
+}
+
+.dash-navbar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
+  background-clip: text;
 }
 
-.dashboard-container {
+.dash-navbar-right {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 30px;
+  align-items: center;
+  gap: 14px;
 }
 
-.top-section {
+.dash-navbar-addr {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.dash-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dash-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+/* Main scrollable content area */
+.dash-main {
+  position: relative;
+  z-index: 10;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
+/* Hero heading */
+.dash-hero {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.dash-hero-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 60%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
+}
+
+.dash-hero-sub {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Grid rows */
+.dash-top-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.features-grid {
+.dash-mid-row {
+  margin-bottom: 20px;
+}
+
+.dash-features-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.history-section {
-  margin-top: 16px;
+.dash-history-row {
+  margin-bottom: 0;
 }
 
-@media (max-width: 800px) {
-  .top-section, .features-grid {
+@media (max-width: 768px) {
+  .dash-top-row,
+  .dash-features-row {
     grid-template-columns: 1fr;
+  }
+
+  .dash-hero-title {
+    font-size: 1.8rem;
+  }
+
+  .dash-navbar {
+    padding: 0 16px;
   }
 }
 
-/* Balance Card Custom Enhancements */
-.balance-card {
-  background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
-  color: white !important;
+/* =====================================================
+   DARK CARD — Override .card for dashboard dark theme
+   ===================================================== */
+
+.dash-page .card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.dash-page .card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.dash-page h3 {
+  color: #ffffff;
+}
+
+/* Balance card gradient stays */
+.dash-page .balance-card {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
   border: none !important;
 }
 
-.balance-card .btn {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  backdrop-filter: blur(4px);
+/* Inputs inside dashboard dark */
+.dash-page input,
+.dash-page select,
+.dash-page textarea {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
 }
 
-.balance-card .btn:hover {
+.dash-page input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.dash-page input:focus,
+.dash-page select:focus {
+  outline: none !important;
+  border-color: rgba(99, 102, 241, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Labels */
+.dash-page label,
+.dash-page .transfer-form-group label {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Text muted */
+.dash-page [style*="color: var(--text-muted)"],
+.dash-page [style*="color:var(--text-muted)"] {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Item rows in canteen/event */
+.dash-page .item-row {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+.dash-page .item-row:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(99, 102, 241, 0.5) !important;
+}
+
+.dash-page .item-name {
+  color: #ffffff;
+}
+
+.dash-page .item-price {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Subtitle in feature cards */
+.dash-page .subtitle {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Transaction history rows */
+.dash-page .tx-link {
+  color: #6ee7b7;
+}
+
+/* Success alert dark adaptation */
+.dash-page .success-alert {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  border-radius: 12px;
+}
+
+/* Primary buttons stay vivid */
+.dash-page .btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.dash-page .btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.55);
+  transform: translateY(-1px);
+}
+
+/* Wallet settings connect button */
+.dash-page .btn {
+  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dash-page .btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Balance card button override */
+.dash-page .balance-card .btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+}
+
+.dash-page .balance-card .btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Transfer Form Custom Enhancements */
+/* strong text inside wallet card */
+.dash-page strong {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Transfer form label fix */
 .transfer-form-group {
   margin-bottom: 16px;
   text-align: left;
@@ -70,5 +317,14 @@ h1 {
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 8px;
-  color: var(--text-main);
+}
+
+/* Dashboard intro text */
+.dashboard-intro {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
