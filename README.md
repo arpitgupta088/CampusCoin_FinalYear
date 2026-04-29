@@ -17,7 +17,7 @@ Students can:
 * Transfer tokens to other students
 * Pay for canteen items
 * Buy event tickets
-* View transaction history
+* View transaction history and download PDF receipts
 * Login securely using JWT authentication
 * Register new accounts linked with wallet addresses
 
@@ -36,6 +36,7 @@ The backend stores users and transaction history in SQL Server.
 * Canteen payment system
 * Event ticket purchase system
 * Transaction history tracking
+* PDF receipt download via jsPDF
 * Sepolia testnet integration
 
 ## Backend Features
@@ -53,18 +54,50 @@ The backend stores users and transaction history in SQL Server.
 
 # 🛠️ Tech Stack
 
-| Layer              | Technology            |
-| ------------------ | --------------------- |
-| Frontend           | React.js              |
-| Backend            | ASP.NET Core Web API  |
-| Database           | SQL Server            |
-| ORM                | Entity Framework Core |
-| Authentication     | JWT + BCrypt          |
-| Blockchain         | Ethereum Sepolia      |
-| Wallet             | MetaMask              |
-| Blockchain Library | ethers.js             |
-| API Testing        | Swagger / Postman     |
-| Styling            | CSS                   |
+| Layer              | Technology            | Version        |
+| ------------------ | --------------------- | -------------- |
+| Frontend           | React.js              | ^19.2.0        |
+| Backend            | ASP.NET Core Web API  | .NET 8         |
+| Database           | SQL Server            | 2019 / 2022    |
+| ORM                | Entity Framework Core | 8.0.8          |
+| Authentication     | JWT + BCrypt          | —              |
+| Blockchain         | Ethereum Sepolia      | —              |
+| Wallet             | MetaMask              | Browser Ext.   |
+| Blockchain Library | ethers.js             | ^6.15.0        |
+| HTTP Client        | Axios                 | ^1.15.1        |
+| PDF Generation     | jsPDF                 | ^4.2.1         |
+| API Testing        | Swagger / Postman     | —              |
+| Styling            | CSS                   | —              |
+
+---
+
+# 💻 System Requirements
+
+## Operating System
+
+* Windows 10 / 11 (recommended)
+* macOS 12+ or Ubuntu 20.04+ also supported
+
+## Hardware (Minimum)
+
+| Component | Minimum         |
+| --------- | --------------- |
+| RAM       | 8 GB            |
+| Storage   | 5 GB free space |
+| CPU       | Dual-core 2 GHz |
+
+## Required Software
+
+| Software                                   | Version         | Download Link |
+| ------------------------------------------ | --------------- | ------------- |
+| Node.js                                    | v18+ (LTS)      | https://nodejs.org |
+| npm                                        | v9+ (bundled)   | https://nodejs.org |
+| .NET SDK                                   | 8.0             | https://dotnet.microsoft.com/download/dotnet/8.0 |
+| SQL Server                                 | 2019 / 2022     | https://www.microsoft.com/en-us/sql-server/sql-server-downloads |
+| SQL Server Management Studio (SSMS)        | 19+             | https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms |
+| Visual Studio 2022 **or** VS Code          | Latest          | https://visualstudio.microsoft.com |
+| MetaMask Browser Extension                 | Latest          | https://metamask.io |
+| Git                                        | Latest          | https://git-scm.com |
 
 ---
 
@@ -104,8 +137,8 @@ CampusCoin_FinalYear/
 │       ├── DTOs/
 │       ├── Models/
 │       ├── Migrations/
-│       ├── .env
-│       ├── appsettings.json
+│       ├── .env              ← your local secrets (NOT pushed to GitHub)
+│       ├── appsettings.json  ← template with placeholders (safe to share)
 │       ├── Program.cs
 │       └── CampusCoinBackend.csproj
 │
@@ -115,54 +148,185 @@ CampusCoin_FinalYear/
 
 ---
 
-# ⚙️ Prerequisites
+# ⚙️ Prerequisites Checklist
 
-Before running the project, install the following:
+Before running the project, make sure the following are installed and working:
 
-* Node.js
-* npm
-* Visual Studio 2022 or Visual Studio Code
-* .NET 8 SDK
-* SQL Server
-* SQL Server Management Studio (SSMS)
-* MetaMask browser extension
+- [ ] Node.js v18+ and npm v9+
+- [ ] .NET 8 SDK (`dotnet --version` should show `8.x.x`)
+- [ ] SQL Server (Express or Developer edition)
+- [ ] SQL Server Management Studio (SSMS)
+- [ ] MetaMask extension installed in your browser (Chrome / Edge / Firefox)
+- [ ] Visual Studio 2022 or VS Code
 
 ---
 
 # 🔑 MetaMask Setup
 
-1. Install MetaMask browser extension
-2. Create or import wallet
-3. Enable test networks in MetaMask
-4. Switch to Ethereum Sepolia Testnet
-5. Import CampusCoin token contract if needed
-6. Ensure you have Sepolia ETH for gas fees
+1. Install the MetaMask browser extension from https://metamask.io
+2. Create a new wallet or import an existing one
+3. Open MetaMask settings → **Advanced** → Enable **"Show test networks"**
+4. Switch the active network to **Ethereum Sepolia Testnet**
+5. Get free Sepolia ETH from a faucet (e.g. https://sepoliafaucet.com) for gas fees
+6. Import the CampusCoin ERC-20 token contract address if provided
+
+> **Note:** MetaMask must be installed and connected to Sepolia before using the wallet features of this app.
+
+---
+
+# 🗄️ Database Setup
+
+### Step 1 — Create the Database
+
+Open SSMS and connect to your local SQL Server instance.  
+Run the following query to create the database:
+
+```sql
+CREATE DATABASE CampusCoinDB;
+```
+
+### Step 2 — Configure `appsettings.json`
+
+The `appsettings.json` file committed to GitHub contains **placeholder values only** (no real secrets). Before running the backend, you must fill in your actual server details.
+
+Open `server/CampusCoinBackend/appsettings.json` and replace the placeholders:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=CampusCoinDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Jwt": {
+    "Key": "YOUR_SECRET_KEY",
+    "Issuer": "CampusCoinAPI",
+    "Audience": "CampusCoinUsers"
+  },
+  "AllowedHosts": "*"
+}
+```
+
+#### How to fill in the values:
+
+| Placeholder        | What to replace it with |
+| ------------------ | ----------------------- |
+| `YOUR_SERVER_NAME` | Your SQL Server instance name (e.g. `localhost\SQLEXPRESS` or just `localhost`) |
+| `YOUR_SECRET_KEY`  | A strong random string (minimum 32 characters), e.g. `MySecretCampusCoinKey@2024!` |
+
+**Example filled-in `appsettings.json`:**
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=CampusCoinDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Jwt": {
+    "Key": "MySecretCampusCoinKey@2024!AbcXyz",
+    "Issuer": "CampusCoinAPI",
+    "Audience": "CampusCoinUsers"
+  },
+  "AllowedHosts": "*"
+}
+```
+
+> **Important:** Do NOT commit your real secrets back to GitHub. Keep real credentials only in your local copy.
+
+### Step 3 — Run Entity Framework Migrations
+
+Open a terminal inside `server/CampusCoinBackend/` and run:
+
+```bash
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+This will create all necessary tables in `CampusCoinDB` automatically.
+
+---
+
+# ⚙️ Backend Setup
+
+### Step 1 — Navigate to the backend folder
+
+```bash
+cd server/CampusCoinBackend
+```
+
+### Step 2 — Restore NuGet packages
+
+```bash
+dotnet restore
+```
+
+This installs all required backend packages, including:
+
+| Package                                          | Version  | Purpose                      |
+| ------------------------------------------------ | -------- | ----------------------------- |
+| `Microsoft.EntityFrameworkCore.SqlServer`        | 8.0.8    | SQL Server ORM                |
+| `Microsoft.EntityFrameworkCore.Tools`            | 8.0.8    | EF Core migrations            |
+| `Microsoft.AspNetCore.Authentication.JwtBearer`  | 8.0.8    | JWT authentication            |
+| `BCrypt.Net-Next`                                | 4.1.0    | Password hashing              |
+| `Swashbuckle.AspNetCore`                         | 6.5.0    | Swagger API docs              |
+| `DotNetEnv`                                      | 3.1.1    | .env file support             |
+
+### Step 3 — Run the backend
+
+```bash
+dotnet run
+```
+
+Backend server will start at:
+
+```
+http://localhost:5134
+```
+
+Swagger API documentation will be available at:
+
+```
+http://localhost:5134/swagger
+```
 
 ---
 
 # 🖥️ Frontend Setup
 
-Open terminal inside:
+### Step 1 — Navigate to the client folder
 
-```text
-client/
+```bash
+cd client
 ```
 
-Install dependencies:
+### Step 2 — Install dependencies
 
 ```bash
 npm install
 ```
 
-Install required packages:
+This installs all required packages including:
 
-```bash
-npm install axios
-npm install react-router-dom
-npm install ethers
-```
+| Package                    | Version   | Purpose                    |
+| -------------------------- | --------- | -------------------------- |
+| `react`                    | ^19.2.0   | UI framework               |
+| `react-dom`                | ^19.2.0   | DOM rendering              |
+| `react-router-dom`         | ^7.14.1   | Client-side routing        |
+| `axios`                    | ^1.15.1   | HTTP requests to backend   |
+| `ethers`                   | ^6.15.0   | Ethereum / MetaMask        |
+| `jspdf`                    | ^4.2.1    | PDF receipt generation     |
+| `@metamask/detect-provider`| ^2.0.0    | MetaMask detection         |
 
-Run frontend:
+### Step 3 — Start the frontend
 
 ```bash
 npm start
@@ -170,129 +334,37 @@ npm start
 
 Frontend will run at:
 
-```text
+```
 http://localhost:3000
 ```
 
 ---
 
-# ⚙️ Backend Setup
+# ▶️ Running the Full Project
 
-Open terminal inside:
+Open **two separate terminals** simultaneously:
 
-```text
-server/CampusCoinBackend
-```
-
-Install backend packages:
-
-```bash
-dotnet restore
-```
-
-Required backend packages:
-
-```bash
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-dotnet add package BCrypt.Net-Next
-dotnet add package Swashbuckle.AspNetCore
-dotnet add package DotNetEnv
-```
-
----
-
-# 🗄️ Database Setup
-
-Create SQL Server database:
-
-```text
-CampusCoinDB
-```
-
-Create `.env` file inside:
-
-```text
-server/CampusCoinBackend/.env
-```
-
-Add:
-
-```text
-ConnectionStrings__DefaultConnection=Server=localhost\SQLEXPRESS;Database=CampusCoinDB;Trusted_Connection=True;TrustServerCertificate=True;
-Jwt__Key=ThisIsMyCampusCoinSecretKey12345
-Jwt__Issuer=CampusCoinAPI
-Jwt__Audience=CampusCoinUsers
-```
-
-Run migrations:
-
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
-
----
-
-# ▶️ Run Backend
-
-Inside backend folder run:
-
-```bash
-dotnet run
-```
-
-Backend will run at:
-
-```text
-http://localhost:5134
-```
-
-Swagger API documentation:
-
-```text
-http://localhost:5134/swagger
-```
-
----
-
-# 🔐 Default Test Login
-
-Example registered user:
-
-```text
-Email: acer@gmail.com
-Password: 123456
-```
-
----
-
-# 🔄 Running Both Frontend and Backend
-
-Open two separate terminals.
-
-Terminal 1:
+**Terminal 1 — Backend:**
 
 ```bash
 cd server/CampusCoinBackend
 dotnet run
 ```
 
-Terminal 2:
+**Terminal 2 — Frontend:**
 
 ```bash
 cd client
 npm start
 ```
 
-Then open:
+Then open your browser and go to:
 
-```text
-Frontend: http://localhost:3000
-Backend: http://localhost:5134
-Swagger: http://localhost:5134/swagger
-```
+| Service   | URL                           |
+| --------- | ----------------------------- |
+| Frontend  | http://localhost:3000         |
+| Backend   | http://localhost:5134         |
+| Swagger   | http://localhost:5134/swagger |
 
 ---
 
@@ -300,17 +372,23 @@ Swagger: http://localhost:5134/swagger
 
 ## Authentication APIs
 
-```text
-POST /api/Auth/register
-POST /api/Auth/login
-GET /api/Auth/profile
-```
+| Method | Endpoint              | Description           | Auth Required |
+| ------ | --------------------- | --------------------- | ------------- |
+| POST   | `/api/Auth/register`  | Register new user     | No            |
+| POST   | `/api/Auth/login`     | Login and get token   | No            |
+| GET    | `/api/Auth/profile`   | Get current user info | Yes (JWT)     |
 
 ## Transaction APIs
 
-```text
-POST /api/Transaction/add
-GET /api/Transaction/all
+| Method | Endpoint                  | Description            | Auth Required |
+| ------ | ------------------------- | ---------------------- | ------------- |
+| POST   | `/api/Transaction/add`    | Add new transaction    | Yes (JWT)     |
+| GET    | `/api/Transaction/all`    | Get all transactions   | Yes (JWT)     |
+
+Protected routes require JWT token in the Authorization header:
+
+```
+Authorization: Bearer <your_token_here>
 ```
 
 ---
@@ -319,45 +397,26 @@ GET /api/Transaction/all
 
 You can test APIs using:
 
-* Swagger
-* Postman
-
-Protected routes require JWT token in header:
-
-```text
-Authorization: Bearer your_token_here
-```
+* **Swagger UI** — http://localhost:5134/swagger (built-in, no setup needed)
+* **Postman** — Import the base URL `http://localhost:5134` and add the endpoints above
 
 ---
 
-# 🔒 Important Security Notes
+# 🔒 Security Notes
 
-Do not push the following files to GitHub:
+The `appsettings.json` on GitHub contains only placeholder values (no real secrets).  
+When setting up locally, fill in your real server name and JWT key **only in your local copy**.
 
-```text
+Never commit real secrets to GitHub. The following files are excluded via `.gitignore`:
+
+```
 .env
 appsettings.Development.json
 node_modules/
 bin/
 obj/
-.vs/
-```
-
-Keep real secrets only inside `.env` file.
-
----
-
-# 📄 Git Ignore Example
-
-```text
-node_modules/
-client/node_modules/
-bin/
-obj/
-.env
 .vs/
 .vscode/
-appsettings.Development.json
 ```
 
 ---
@@ -370,14 +429,13 @@ appsettings.Development.json
 * Email verification
 * Hostel fee payment
 * Library fine payment
-* QR code transaction history
-* PDF export
-* Excel export
+* QR code payments
 * Analytics dashboard
 * Profile photo upload
+* Excel export
 
 ---
 
 # 📄 License
 
-This project was developed as a Final Year project for educational purposes.
+This project was developed as a Final Year Major Project for educational purposes.
